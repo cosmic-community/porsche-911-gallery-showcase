@@ -31,7 +31,7 @@ export default function GenerationTimeline({ cars }: GenerationTimelineProps) {
   }, {} as Record<string, Car[]>);
 
   const availableGenerations = Object.keys(carsByGeneration);
-  const displayCars = selectedGeneration ? carsByGeneration[selectedGeneration] : cars;
+  const displayCars = selectedGeneration ? carsByGeneration[selectedGeneration] || [] : cars || [];
 
   return (
     <section id="generations" className="py-20 px-4 bg-gray-800">
@@ -81,7 +81,7 @@ export default function GenerationTimeline({ cars }: GenerationTimelineProps) {
 
         {/* Car Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {displayCars.map((car) => {
+          {displayCars && displayCars.map((car) => {
             const featuredImage = car.metadata?.featured_image;
             const carTitle = car.metadata?.car_title || car.title;
             const year = car.metadata?.model_year;
@@ -117,7 +117,7 @@ export default function GenerationTimeline({ cars }: GenerationTimelineProps) {
           })}
         </div>
 
-        {displayCars.length === 0 && (
+        {displayCars && displayCars.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-400 text-lg">No cars found for this generation</p>
           </div>
